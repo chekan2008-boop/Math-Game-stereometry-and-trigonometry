@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математическая Игра - Стереометрия и Тригонометрия</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="/иконка.png">
+</head>
+<body>
+    <div class="game-container">
+        <!-- ЭКРАН СТАРТА -->
+        <div id="start-screen" class="screen active">
+            <div class="start-content">
+                <div class="header">
+                    <h1><i class="fas fa-calculator"></i> МАТЕМАТИЧЕСКИЙ ВЫЗОВ</h1>
+                    <p class="subtitle">Стереометрия и Тригонометрия</p>
+                </div>
+                
+                <div class="rules">
+                    <h2><i class="fas fa-gamepad"></i> Правила игры:</h2>
+                    <div class="rules-list">
+                        <div class="rule">
+                            <div class="rule-icon">1</div>
+                            <p>Выбирайте правильный ответ из 4 вариантов</p>
+                        </div>
+                        <div class="rule">
+                            <div class="rule-icon">2</div>
+                            <p>За правильный ответ получаете +10 очков</p>
+                        </div>
+                        <div class="rule">
+                            <div class="rule-icon">3</div>
+                            <p>3 правильных ответа подряд = новый уровень</p>
+                        </div>
+                        <div class="rule">
+                            <div class="rule-icon">4</div>
+                            <p>Используйте подсказки если затрудняетесь</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="topics">
+                    <h2><i class="fas fa-graduation-cap"></i> Темы вопросов:</h2>
+                    <div class="topics-grid">
+                        <div class="topic-card trig">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Тригонометрия</h3>
+                            <ul>
+                                <li>Значения sin, cos, tg</li>
+                                <li>Тригонометрические уравнения</li>
+                                <li>Основные тождества</li>
+                            </ul>
+                        </div>
+                        <div class="topic-card geom">
+                            <i class="fas fa-shapes"></i>
+                            <h3>Стереометрия</h3>
+                            <ul>
+                                <li>Объемы фигур</li>
+                                <li>Площади поверхностей</li>
+                                <li>Задачи на комбинации</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="difficulty-select">
+                    <h3><i class="fas fa-sliders-h"></i> Сложность:</h3>
+                    <div class="difficulty-buttons">
+                        <button class="diff-btn active" data-level="easy">
+                            <i class="fas fa-star"></i> Легкий
+                        </button>
+                        <button class="diff-btn" data-level="medium">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i> Средний
+                        </button>
+                        <button class="diff-btn" data-level="hard">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> Сложный
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- ВЫБОР КАТЕГОРИИ ВОПРОСОВ -->
+                <div class="category-select">
+                    <h3><i class="fas fa-filter"></i> Категория вопросов:</h3>
+                    <div class="category-buttons">
+                        <button class="cat-btn active" data-category="both">
+                            <i class="fas fa-random"></i> Обе категории
+                        </button>
+                        <button class="cat-btn" data-category="trigonometry">
+                            <i class="fas fa-chart-line"></i> Только тригонометрия
+                        </button>
+                        <button class="cat-btn" data-category="stereometry">
+                            <i class="fas fa-shapes"></i> Только стереометрия
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="game-mode-select">
+                    <h3><i class="fas fa-clock"></i> Режим игры:</h3>
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-mode="10">
+                            <i class="fas fa-bolt"></i> Быстрая игра (10 вопросов)
+                        </button>
+                        <button class="mode-btn" data-mode="20">
+                            <i class="fas fa-trophy"></i> Полная игра (20 вопросов)
+                        </button>
+                    </div>
+                </div>
+                
+                <button id="start-btn" class="btn-start">
+                    <i class="fas fa-play-circle"></i> НАЧАТЬ ИГРУ
+                </button>
+                
+                <div class="author">
+                    <p>Игра для изучения математики</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ЭКРАН ИГРЫ -->
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="player-stats">
+                    <div class="stat">
+                        <span class="stat-label">Очки:</span>
+                        <span class="stat-value" id="score">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Уровень:</span>
+                        <span class="stat-value" id="level">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Вопрос:</span>
+                        <span class="stat-value" id="question-num">1/10</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Правильно:</span>
+                        <span class="stat-value" id="correct">0</span>
+                    </div>
+                </div>
+                
+                <button id="menu-btn" class="btn-menu">
+                    <i class="fas fa-bars"></i> Меню
+                </button>
+            </div>
+            
+            <div class="game-content">
+                <div class="question-area">
+                    <div class="category-tag" id="category-tag">
+                        <i class="fas fa-cube"></i> <span id="category-name">Стереометрия</span>
+                    </div>
+                    
+                    <div class="question-box">
+                        <h2 id="question-text">Загрузка вопроса...</h2>
+                        
+                        <div class="formula-box" id="formula-box">
+                            <!-- Формулы появятся после ответа -->
+                        </div>
+                        
+                        <div class="diagram-box" id="diagram-box">
+                            <!-- Диаграммы появятся здесь -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="answers-area">
+                    <div class="answers-grid" id="answers-container">
+                        <!-- Варианты ответов появятся здесь -->
+                    </div>
+                    
+                    <div class="hint-area">
+                        <button id="hint-btn" class="btn-hint">
+                            <i class="fas fa-lightbulb"></i> Подсказка (<span id="hints-count">3</span>)
+                        </button>
+                        <div class="hint-text" id="hint-text"></div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button id="next-btn" class="btn-next" disabled>
+                        <i class="fas fa-forward"></i> Следующий вопрос
+                    </button>
+                    <button id="restart-btn" class="btn-restart">
+                        <i class="fas fa-redo"></i> Заново
+                    </button>
+                </div>
+                
+                <div class="feedback" id="feedback">
+                    <!-- Результат проверки и решение -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- ЭКРАН РЕЗУЛЬТАТОВ -->
+        <div id="result-screen" class="screen">
+            <div class="result-content">
+                <div class="result-header">
+                    <h1><i class="fas fa-trophy"></i> ИГРА ЗАВЕРШЕНА!</h1>
+                    <p class="result-subtitle">Ваши результаты</p>
+                </div>
+                
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <div class="result-icon" style="background: #3498db;">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="result-info">
+                            <div class="result-label">Итоговый счет</div>
+                            <div class="result-value" id="final-score">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-stat">
+                        <div class="result-icon" style="background: #2ecc71;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="result-info">
+                            <div class="result-label">Достигнутый уровень</div>
+                            <div class="result-value" id="final-level">1</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-stat">
+                        <div class="result-icon" style="background: #e74c3c;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="result-info">
+                            <div class="result-label">Правильных ответов</div>
+                            <div class="result-value" id="final-correct">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-stat">
+                        <div class="result-icon" style="background: #9b59b6;">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="result-info">
+                            <div class="result-label">Всего вопросов</div>
+                            <div class="result-value" id="final-total">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-message" id="result-message">
+                    <!-- Сообщение о результате -->
+                </div>
+                
+                <div class="result-buttons">
+                    <button id="play-again-btn" class="btn-result">
+                        <i class="fas fa-redo"></i> Играть снова
+                    </button>
+                    <button id="main-menu-btn" class="btn-result">
+                        <i class="fas fa-home"></i> Главное меню
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hint-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-lightbulb"></i> Подсказка</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="hint-content"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
