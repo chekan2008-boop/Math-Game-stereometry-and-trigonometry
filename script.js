@@ -12,7 +12,7 @@ let game = {
     totalQuestions: 0,
     questionPool: [], // Пул вопросов для текущей игры
     usedQuestions: new Set(), // Использованные вопросы
-    selectedCategory: 'both', // ← ТАКЖЕ С ЗАПЯТОЙ (это нормально в современных JS)
+    selectedCategory: 'both',
 };
 
 // ========== ЭЛЕМЕНТЫ DOM ==========
@@ -53,11 +53,11 @@ const finalCorrectElement = document.getElementById('final-correct');
 const finalTotalElement = document.getElementById('final-total');
 const resultMessage = document.getElementById('result-message');
 
-// ========== БАЗА ВОПРОСОВ ==========
+// ========== БАЗА ВОПРОСОВ (БЕЗ ПРОИЗВОЛЬНЫХ УГЛОВ) ==========
 const questions = {
     trigonometry: {
         easy: [
-            // 1-10: Основные значения углов
+            // Основные значения углов (0°, 30°, 45°, 60°, 90°)
             {
                 question: "Чему равен sin(0°)?",
                 answers: ["0", "1", "0.5", "√2/2"],
@@ -139,7 +139,7 @@ const questions = {
                 explanation: "При угле 90° прилежащий катет равен 0, поэтому cos(90°) = 0."
             },
 
-            // 11-20: Тангенсы
+            // Тангенсы основных углов
             {
                 question: "Чему равен tg(0°)?",
                 answers: ["0", "1", "не существует", "∞"],
@@ -181,7 +181,7 @@ const questions = {
                 explanation: "tg(90°) = 1/0, деление на ноль невозможно."
             },
 
-            // 21-30: Основные тождества и свойства
+            // Основные тождества и свойства
             {
                 question: "Чему равно sin²α + cos²α?",
                 answers: ["1", "0", "sin(2α)", "2sinαcosα"],
@@ -206,6 +206,8 @@ const questions = {
                 hint: "1 + ctg²α = 1/sin²α",
                 explanation: "Это тождество следует из основного тождества, разделенного на sin²α."
             },
+
+            // Формулы приведения (180°-α)
             {
                 question: "Чему равен sin(180°-α)?",
                 answers: ["sinα", "-sinα", "cosα", "-cosα"],
@@ -223,7 +225,7 @@ const questions = {
                 explanation: "Во второй четверти косинус отрицательный и равен минус косинусу дополнительного угла."
             },
 
-            // 31-40: Простые уравнения
+            // Простые уравнения
             {
                 question: "Решите: sin x = 0",
                 answers: ["0° и 180°", "90°", "45°", "60°"],
@@ -265,7 +267,7 @@ const questions = {
                 explanation: "Тангенс равен 1 когда sin x = cos x, то есть при 45° и через полпериода."
             },
 
-            // 41-50: Дополнительные значения
+            // Значения углов с формулами приведения
             {
                 question: "Чему равен sin(120°)?",
                 answers: ["√3/2", "0.5", "-0.5", "-√3/2"],
@@ -361,66 +363,10 @@ const questions = {
                 formula: "ctg(150°) = ctg(180°-30°) = -ctg30° = -√3",
                 hint: "ctg(150°) = -ctg(30°)",
                 explanation: "Котангенс во второй четверти отрицательный. ctg(150°) = ctg(180°-30°) = -ctg(30°) = -√3."
-            },
-            {
-                question: "Чему равен sin(210°)?",
-                answers: ["-0.5", "0.5", "-√3/2", "√3/2"],
-                correct: "-0.5",
-                formula: "sin(210°) = sin(180°+30°) = -sin30° = -0.5",
-                hint: "sin(210°) = -sin(30°)",
-                explanation: "210° находится в третьей четверти, где синус отрицательный. sin(210°) = sin(180°+30°) = -sin(30°) = -0.5."
-            },
-            {
-                question: "Чему равен cos(210°)?",
-                answers: ["-√3/2", "√3/2", "-0.5", "0.5"],
-                correct: "-√3/2",
-                formula: "cos(210°) = cos(180°+30°) = -cos30° = -√3/2",
-                hint: "cos(210°) = -cos(30°)",
-                explanation: "210° находится в третьей четверти, где косинус отрицательный. cos(210°) = cos(180°+30°) = -cos(30°) = -√3/2."
-            },
-            {
-                question: "Чему равен sin(225°)?",
-                answers: ["-√2/2", "√2/2", "-0.5", "0.5"],
-                correct: "-√2/2",
-                formula: "sin(225°) = sin(180°+45°) = -sin45° = -√2/2",
-                hint: "sin(225°) = -sin(45°)",
-                explanation: "225° находится в третьей четверти, где синус отрицательный. sin(225°) = sin(180°+45°) = -sin(45°) = -√2/2."
-            },
-            {
-                question: "Чему равен cos(225°)?",
-                answers: ["-√2/2", "√2/2", "-0.5", "0.5"],
-                correct: "-√2/2",
-                formula: "cos(225°) = cos(180°+45°) = -cos45° = -√2/2",
-                hint: "cos(225°) = -cos(45°)",
-                explanation: "225° находится в третьей четверти, где косинус отрицательный. cos(225°) = cos(180°+45°) = -cos(45°) = -√2/2."
-            },
-            {
-                question: "Чему равен tg(210°)?",
-                answers: ["√3/3", "-√3/3", "√3", "-√3"],
-                correct: "√3/3",
-                formula: "tg(210°) = tg(180°+30°) = tg30° = √3/3",
-                hint: "tg(210°) = tg(30°)",
-                explanation: "Тангенс в третьей четверти положительный (так как период π). tg(210°) = tg(180°+30°) = tg(30°) = √3/3."
-            },
-            {
-                question: "Чему равен sin(330°)?",
-                answers: ["-0.5", "0.5", "-√3/2", "√3/2"],
-                correct: "-0.5",
-                formula: "sin(330°) = sin(360°-30°) = -sin30° = -0.5",
-                hint: "sin(330°) = -sin(30°)",
-                explanation: "330° находится в четвертой четверти, где синус отрицательный. sin(330°) = sin(360°-30°) = -sin(30°) = -0.5."
-            },
-            {
-                question: "Чему равен cos(330°)?",
-                answers: ["√3/2", "-√3/2", "0.5", "-0.5"],
-                correct: "√3/2",
-                formula: "cos(330°) = cos(360°-30°) = cos30° = √3/2",
-                hint: "cos(330°) = cos(30°)",
-                explanation: "330° находится в четвертой четверти, где косинус положительный. cos(330°) = cos(360°-30°) = cos(30°) = √3/2."
             }
         ],
         medium: [
-            // 1-20: Формулы двойного угла
+            // Формулы двойного угла
             {
                 question: "Чему равен sin(2α)?",
                 answers: ["2sinα·cosα", "sin²α - cos²α", "2cosα", "sinα + sinα"],
@@ -462,7 +408,7 @@ const questions = {
                 explanation: "Из формулы cos(2α) = 2cos²α - 1 следует это выражение."
             },
 
-            // 21-40: Формулы сложения
+            // Формулы сложения
             {
                 question: "Чему равно sin(α + β)?",
                 answers: ["sinα·cosβ + cosα·sinβ", "sinα·sinβ + cosα·cosβ", "sinα + sinβ", "cosα·cosβ - sinα·sinβ"],
@@ -504,7 +450,7 @@ const questions = {
                 explanation: "Выводится из формул синуса и косинуса суммы."
             },
 
-            // 41-60: Преобразования сумм в произведения
+            // Преобразования сумм в произведения
             {
                 question: "Преобразуйте в произведение: sinα + sinβ",
                 answers: ["2sin((α+β)/2)·cos((α-β)/2)", "2cos((α+β)/2)·sin((α-β)/2)", "2sin((α+β)/2)·sin((α-β)/2)", "2cos((α+β)/2)·cos((α-β)/2)"],
@@ -538,7 +484,7 @@ const questions = {
                 explanation: "Разность косинусов преобразуется в произведение синусов с минусом."
             },
 
-            // 61-80: Уравнения средней сложности
+            // Уравнения средней сложности
             {
                 question: "Решите: 2sin x = 1",
                 answers: ["30° и 150°", "45°", "60°", "90°"],
@@ -579,10 +525,65 @@ const questions = {
                 hint: "cos x = √3/2 или cos x = -√3/2",
                 explanation: "cos x = √3/2 дает 30° и 330°, cos x = -√3/2 дает 150° и 210°."
             },
-            
+            {
+                question: "Выразите sin(180°+α) через α",
+                answers: ["-sinα", "sinα", "-cosα", "cosα"],
+                correct: "-sinα",
+                formula: "sin(180°+α) = -sinα",
+                hint: "В третьей четверти синус отрицательный",
+                explanation: "При увеличении угла на 180°, синус меняет знак на противоположный."
+            },
+            {
+                question: "Выразите cos(180°+α) через α",
+                answers: ["-cosα", "cosα", "-sinα", "sinα"],
+                correct: "-cosα",
+                formula: "cos(180°+α) = -cosα",
+                hint: "В третьей четверти косинус отрицательный",
+                explanation: "При увеличении угла на 180°, косинус меняет знак на противоположный."
+            },
+            {
+                question: "Выразите tg(180°+α) через α",
+                answers: ["tgα", "-tgα", "ctgα", "-ctgα"],
+                correct: "tgα",
+                formula: "tg(180°+α) = tgα",
+                hint: "Тангенс имеет период 180°",
+                explanation: "Тангенс периодичен с периодом π (180°), поэтому tg(180°+α) = tgα."
+            },
+            {
+                question: "Выразите sin(360°-α) через α",
+                answers: ["-sinα", "sinα", "-cosα", "cosα"],
+                correct: "-sinα",
+                formula: "sin(360°-α) = -sinα",
+                hint: "В четвертой четверти синус отрицательный",
+                explanation: "sin(360°-α) = sin(-α) = -sinα."
+            },
+            {
+                question: "Выразите cos(360°-α) через α",
+                answers: ["cosα", "-cosα", "sinα", "-sinα"],
+                correct: "cosα",
+                formula: "cos(360°-α) = cosα",
+                hint: "В четвертой четверти косинус положительный",
+                explanation: "cos(360°-α) = cos(-α) = cosα."
+            },
+            {
+                question: "Решите: sin(x) = sin(120°)",
+                answers: ["60° и 120°", "30° и 150°", "45° и 135°", "90° и 120°"],
+                correct: "60° и 120°",
+                formula: "sin(x) = √3/2 ⇒ x = 60° и 120°",
+                hint: "sin(120°) = √3/2",
+                explanation: "sin(120°) = √3/2. Уравнение sin(x) = √3/2 имеет решения: x = 60° и x = 120° на промежутке [0°, 180°]."
+            },
+            {
+                question: "Решите: cos(x) = cos(135°)",
+                answers: ["135° и 225°", "45° и 135°", "45° и 225°", "135° и 315°"],
+                correct: "135° и 225°",
+                formula: "cos(x) = -√2/2 ⇒ x = 135° и 225°",
+                hint: "cos(135°) = -√2/2",
+                explanation: "cos(135°) = -√2/2. Уравнение cos(x) = -√2/2 имеет решения: x = 135° и x = 225° на промежутке [0°, 360°]."
+            }
         ],
         hard: [
-            // 1-20: Сложные тождества и преобразования
+            // Сложные тождества и преобразования
             {
                 question: "Чему равно sin3α?",
                 answers: ["3sinα - 4sin³α", "4sin³α - 3sinα", "sinα + sin2α", "3sinα·cosα"],
@@ -616,7 +617,7 @@ const questions = {
                 explanation: "Это разные формы записи формулы косинуса двойного угла."
             },
 
-            // 21-40: Сложные уравнения
+            // Сложные уравнения
             {
                 question: "Решите: sin x + cos x = 1",
                 answers: ["0° и 90°", "45°", "30° и 60°", "180°"],
@@ -650,7 +651,7 @@ const questions = {
                 explanation: "Получаем квадратное уравнение относительно sin x."
             },
 
-            // 41-60: Задачи на доказательство и преобразование
+            // Задачи на доказательство и преобразование
             {
                 question: "Докажите тождество: (sinα + cosα)² = 1 + sin2α",
                 answers: ["верно", "неверно", "верно только для α=45°", "не знаю"],
@@ -677,20 +678,20 @@ const questions = {
             },
             {
                 question: "Упростите: sin(180°-α)·cos(90°+α) + cos(180°-α)·sin(90°+α)",
-        answers: ["-1", "1", "0", "sin2α"],
-        correct: "-1",
-        formula: "sin(180°-α)·cos(90°+α) + cos(180°-α)·sin(90°+α) = sinα·(-sinα) + (-cosα)·cosα = -sin²α - cos²α = -1",
-        hint: "Используйте формулы приведения для каждого слагаемого",
-        explanation: "sin(180°-α) = sinα, cos(90°+α) = -sinα, cos(180°-α) = -cosα, sin(90°+α) = cosα. Тогда выражение: sinα·(-sinα) + (-cosα)·cosα = -sin²α - cos²α = -(sin²α+cos²α) = -1."
-    },
-    {
-        question: "Докажите тождество: tg(135°+α) = (tgα-1)/(tgα+1)",
-        answers: ["верно", "неверно", "верно только для α=45°", "не знаю"],
-        correct: "верно",
-        formula: "tg(135°+α) = tg(90°+45°+α) = -ctg(45°+α) = -(1-tgα)/(1+tgα) = (tgα-1)/(tgα+1)",
-        hint: "Используйте формулу тангенса суммы",
-        explanation: "tg(135°+α) = tg(90°+45°+α) = -ctg(45°+α) = -1/tg(45°+α) = -(1-tgα)/(1+tgα) = (tgα-1)/(tgα+1)."
-    }
+                answers: ["-1", "1", "0", "sin2α"],
+                correct: "-1",
+                formula: "sin(180°-α)·cos(90°+α) + cos(180°-α)·sin(90°+α) = sinα·(-sinα) + (-cosα)·cosα = -sin²α - cos²α = -1",
+                hint: "Используйте формулы приведения для каждого слагаемого",
+                explanation: "sin(180°-α) = sinα, cos(90°+α) = -sinα, cos(180°-α) = -cosα, sin(90°+α) = cosα. Тогда выражение: sinα·(-sinα) + (-cosα)·cosα = -sin²α - cos²α = -(sin²α+cos²α) = -1."
+            },
+            {
+                question: "Докажите тождество: tg(135°+α) = (tgα-1)/(tgα+1)",
+                answers: ["верно", "неверно", "верно только для α=45°", "не знаю"],
+                correct: "верно",
+                formula: "tg(135°+α) = tg(90°+45°+α) = -ctg(45°+α) = -(1-tgα)/(1+tgα) = (tgα-1)/(tgα+1)",
+                hint: "Используйте формулу тангенса суммы",
+                explanation: "tg(135°+α) = tg(90°+45°+α) = -ctg(45°+α) = -1/tg(45°+α) = -(1-tgα)/(1+tgα) = (tgα-1)/(tgα+1)."
+            }
         ],
     },
     
@@ -775,7 +776,7 @@ const questions = {
                 correct: "40 см³",
                 formula: "V = 1/3 S·h = 1/3 × 24 × 5 = 40 см³",
                 hint: "V = 1/3 S·h для любой пирамиды",
-                explanation: "Объем пирамиды равен одной трети произведения площади основания на высоту."
+                explanation: "Объем пирамида равен одной трети произведения площади основания на высоту."
             },
 
             // 21-40: Площади поверхностей
@@ -1036,144 +1037,8 @@ const questions = {
     }
 };
 
-function generateFormulaReductionQuestions(count) {
-    const questions = [];
-    
-    const anglePairs = [
-        {angle: 120, reference: 60, quadrant: 2},
-        {angle: 135, reference: 45, quadrant: 2},
-        {angle: 150, reference: 30, quadrant: 2},
-        {angle: 210, reference: 30, quadrant: 3},
-        {angle: 225, reference: 45, quadrant: 3},
-        {angle: 240, reference: 60, quadrant: 3},
-        {angle: 300, reference: 60, quadrant: 4},
-        {angle: 315, reference: 45, quadrant: 4},
-        {angle: 330, reference: 30, quadrant: 4}
-    ];
-    
-    const functions = [
-        {name: 'sin', signs: ['+', '+', '-', '-'], getValue: (ref) => {
-            if (ref === 30) return '1/2';
-            if (ref === 45) return '√2/2';
-            if (ref === 60) return '√3/2';
-            return '';
-        }},
-        {name: 'cos', signs: ['+', '-', '-', '+'], getValue: (ref) => {
-            if (ref === 30) return '√3/2';
-            if (ref === 45) return '√2/2';
-            if (ref === 60) return '1/2';
-            return '';
-        }},
-        {name: 'tg', signs: ['+', '-', '+', '-'], getValue: (ref) => {
-            if (ref === 30) return '√3/3';
-            if (ref === 45) return '1';
-            if (ref === 60) return '√3';
-            return '';
-        }},
-        {name: 'ctg', signs: ['+', '-', '+', '-'], getValue: (ref) => {
-            if (ref === 30) return '√3';
-            if (ref === 45) return '1';
-            if (ref === 60) return '√3/3';
-            return '';
-        }}
-    ];
-    
-    const usedCombinations = new Set();
-    
-    while (questions.length < count && usedCombinations.size < anglePairs.length * functions.length) {
-        const anglePair = anglePairs[Math.floor(Math.random() * anglePairs.length)];
-        const func = functions[Math.floor(Math.random() * functions.length)];
-        
-        const combinationKey = `${anglePair.angle}_${func.name}`;
-        if (usedCombinations.has(combinationKey)) continue;
-        
-        usedCombinations.add(combinationKey);
-        
-        // Определяем знак в зависимости от четверти (0-based index)
-        const sign = func.signs[anglePair.quadrant - 1];
-        const value = func.getValue(anglePair.reference);
-        
-        // Правильный ответ
-        const correct = sign === '+' ? value : `-${value}`;
-        
-        // Генерируем неправильные ответы
-        const answers = [correct];
-        while (answers.length < 4) {
-            let wrong;
-            const randomSign = Math.random() > 0.5 ? '+' : '-';
-            if (randomSign === '+') {
-                wrong = value;
-            } else {
-                wrong = `-${value}`;
-            }
-            
-            // Убедимся, что ответ не совпадает с правильным и не повторяется
-            if (!answers.includes(wrong) && wrong !== correct) {
-                answers.push(wrong);
-            }
-        }
-        
-        // Перемешиваем ответы
-        for (let i = answers.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [answers[i], answers[j]] = [answers[j], answers[i]];
-        }
-        
-        // Формулы приведения в зависимости от четверти
-        let formula = '';
-        let hint = '';
-        let explanation = '';
-        
-        if (anglePair.quadrant === 2) {
-            formula = `${func.name}(${anglePair.angle}°) = ${func.name}(180°-${anglePair.reference}°) = ${sign}${func.name}(${anglePair.reference}°) = ${correct}`;
-            hint = `${func.name}(${anglePair.angle}°) = ${sign}${func.name}(${anglePair.reference}°)`;
-            explanation = `${anglePair.angle}° находится во второй четверти. Во второй четверти ${func.name} ${sign === '+' ? 'положительный' : 'отрицательный'}.`;
-        } else if (anglePair.quadrant === 3) {
-            formula = `${func.name}(${anglePair.angle}°) = ${func.name}(180°+${anglePair.reference}°) = ${sign}${func.name}(${anglePair.reference}°) = ${correct}`;
-            hint = `${func.name}(${anglePair.angle}°) = ${sign}${func.name}(${anglePair.reference}°)`;
-            explanation = `${anglePair.angle}° находится в третьей четверти. В третьей четверти ${func.name} ${sign === '+' ? 'положительный' : 'отрицательный'}.`;
-        } else if (anglePair.quadrant === 4) {
-            formula = `${func.name}(${anglePair.angle}°) = ${func.name}(360°-${anglePair.reference}°) = ${sign}${func.name}(${anglePair.reference}°) = ${correct}`;
-            hint = `${func.name}(${anglePair.angle}°) = ${sign}${func.name}(${anglePair.reference}°)`;
-            explanation = `${anglePair.angle}° находится в четвертой четверти. В четвертой четверти ${func.name} ${sign === '+' ? 'положительный' : 'отрицательный'}.`;
-        }
-        
-        questions.push({
-            question: `Чему равен ${func.name}(${anglePair.angle}°)?`,
-            answers: answers,
-            correct: correct,
-            formula: formula,
-            hint: hint,
-            explanation: explanation,
-            category: 'trigonometry'
-        });
-    }
-    
-    return questions;
-}
-
-function enrichQuestionsFor20Mode() {
-    const reductionQuestions = generateFormulaReductionQuestions(20);
-    
-    // Распределяем их по уровням сложности
-    const easyReduction = reductionQuestions.slice(0, 8);
-    const mediumReduction = reductionQuestions.slice(8, 16);
-    const hardReduction = reductionQuestions.slice(16, 20);
-    
-    questions.trigonometry.easy.push(...easyReduction);
-    questions.trigonometry.medium.push(...mediumReduction);
-    questions.trigonometry.hard.push(...hardReduction);
-    
-    // Сохраняем оригинальные вызовы для дополнительных вопросов
-    questions.trigonometry.easy.push(...generateAdditionalTrigonometryQuestions(22));
-    questions.trigonometry.medium.push(...generateAdditionalTrigonometryQuestions(14));
-    questions.trigonometry.hard.push(...generateAdditionalTrigonometryQuestions(20));
-    
-    // Добавляем дополнительные вопросы по стереометрии
-    questions.stereometry.easy.push(...generateAdditionalStereometryQuestions(30));
-    questions.stereometry.medium.push(...generateAdditionalStereometryQuestions(30));
-    questions.stereometry.hard.push(...generateAdditionalStereometryQuestions(40));
-}
+// ========== ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ ДОПОЛНИТЕЛЬНЫХ ВОПРОСОВ ПО СТЕРЕОМЕТРИИ ==========
+// (Сохраняем только эту функцию, так как вопросы по тригонометрии теперь только статические)
 
 function generateAdditionalStereometryQuestions(count) {
     const additional = [];
@@ -1237,6 +1102,15 @@ function generateAdditionalStereometryQuestions(count) {
     }
     
     return additional;
+}
+
+// ========== ФУНКЦИЯ ДЛЯ ОБОГАЩЕНИЯ ВОПРОСОВ (ТОЛЬКО СТЕРЕОМЕТРИЯ) ==========
+
+function enrichQuestionsFor20Mode() {
+    // Добавляем дополнительные вопросы только по стереометрии
+    questions.stereometry.easy.push(...generateAdditionalStereometryQuestions(30));
+    questions.stereometry.medium.push(...generateAdditionalStereometryQuestions(30));
+    questions.stereometry.hard.push(...generateAdditionalStereometryQuestions(40));
 }
 
 // Вызываем функцию обогащения вопросов
