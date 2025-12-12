@@ -1045,9 +1045,9 @@ function generateAdditionalStereometryQuestions(count) {
     
     const figures = [
         { name: 'куб', param: 'ребро', unit: 'см', formula: (a) => `V = a³ = ${a}³ = ${a*a*a} см³` },
-        { name: 'шар', param: 'радиус', unit: 'см', formula: (r) => `V = 4/3πR³ = 4/3 × 3.14 × ${r}³ ≈ ${(4/3*3.14*r*r*r).toFixed(2)} см³` },
-        { name: 'цилиндр', param: 'радиус', unit: 'см', formula: (r, h) => `V = πR²h = 3.14 × ${r}² × ${h} = ${(3.14*r*r*h).toFixed(2)} см³` },
-        { name: 'конус', param: 'радиус', unit: 'см', formula: (r, h) => `V = 1/3πR²h = 1/3 × 3.14 × ${r}² × ${h} = ${(1/3*3.14*r*r*h).toFixed(2)} см³` }
+        { name: 'шар', param: 'радиус', unit: 'см', formula: (r) => `V = 4/3πR³ = 4/3 × 3 × ${r}³ ≈ ${(4/3*3*r*r*r).toFixed(2)} см³` },
+        { name: 'цилиндр', param: 'радиус', unit: 'см', formula: (r, h) => `V = πR²h = 3 × ${r}² × ${h} = ${(3*r*r*h).toFixed(2)} см³` },
+        { name: 'конус', param: 'радиус', unit: 'см', formula: (r, h) => `V = 1/3πR²h = 1/3 × 3 × ${r}² × ${h} = ${(1/3*3*r*r*h).toFixed(2)} см³` }
     ];
     
     for (let i = 0; i < count; i++) {
@@ -1061,16 +1061,16 @@ function generateAdditionalStereometryQuestions(count) {
             formula = figure.formula(paramValue);
             question = `Найдите объем ${figure.name} с ${figure.param} ${paramValue} ${figure.unit}`;
         } else if (figure.name === 'шар') {
-            correct = (4/3 * 3.14 * paramValue * paramValue * paramValue).toFixed(2);
+            correct = (4/3 * 3 * paramValue * paramValue * paramValue).toFixed(2);
             formula = figure.formula(paramValue);
-            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} (π≈3.14)`;
+            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} (π≈3)`;
         } else {
             const height = Math.floor(Math.random() * 10) + 5;
             correct = figure.name === 'цилиндр' 
-                ? (3.14 * paramValue * paramValue * height).toFixed(2)
-                : (1/3 * 3.14 * paramValue * paramValue * height).toFixed(2);
+                ? (3 * paramValue * paramValue * height).toFixed(2)
+                : (1/3 * 3 * paramValue * paramValue * height).toFixed(2);
             formula = figure.formula(paramValue, height);
-            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} и высотой ${height} ${figure.unit} (π≈3.14)`;
+            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} и высотой ${height} ${figure.unit} (π≈3)`;
         }
         
         const answers = [correct];
@@ -1512,4 +1512,5 @@ function endGame() {
 }
 
 // Запуск игры
+
 document.addEventListener('DOMContentLoaded', initGame);
