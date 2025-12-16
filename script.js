@@ -1037,73 +1037,6 @@ const questions = {
     }
 };
 
-// ========== ФУНКЦИЯ ДЛЯ ГЕНЕРАЦИИ ДОПОЛНИТЕЛЬНЫХ ВОПРОСОВ ПО СТЕРЕОМЕТРИИ ==========
-// (Сохраняем только эту функцию, так как вопросы по тригонометрии теперь только статические)
-
-function generateAdditionalStereometryQuestions(count) {
-    const additional = [];
-    
-    const figures = [
-        { name: 'куб', param: 'ребро', unit: 'см', formula: (a) => `V = a³ = ${a}³ = ${a*a*a} см³` },
-        { name: 'шар', param: 'радиус', unit: 'см', formula: (r) => `V = 4/3πR³ = 4/3 × 3.14 × ${r}³ ≈ ${(4/3*3.14*r*r*r).toFixed(2)} см³` },
-        { name: 'цилиндр', param: 'радиус', unit: 'см', formula: (r, h) => `V = πR²h = 3.14 × ${r}² × ${h} = ${(3.14*r*r*h).toFixed(2)} см³` },
-        { name: 'конус', param: 'радиус', unit: 'см', formula: (r, h) => `V = 1/3πR²h = 1/3 × 3.14 × ${r}² × ${h} = ${(1/3*3.14*r*r*h).toFixed(2)} см³` }
-    ];
-    
-    for (let i = 0; i < count; i++) {
-        const figure = figures[Math.floor(Math.random() * figures.length)];
-        const paramValue = Math.floor(Math.random() * 10) + 1;
-        
-        let question, correct, formula;
-        
-        if (figure.name === 'куб') {
-            correct = (paramValue * paramValue * paramValue).toString();
-            formula = figure.formula(paramValue);
-            question = `Найдите объем ${figure.name} с ${figure.param} ${paramValue} ${figure.unit}`;
-        } else if (figure.name === 'шар') {
-            correct = (4/3 * 3.14 * paramValue * paramValue * paramValue).toFixed(2);
-            formula = figure.formula(paramValue);
-            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} (π≈3.14)`;
-        } else {
-            const height = Math.floor(Math.random() * 10) + 5;
-            correct = figure.name === 'цилиндр' 
-                ? (3.14 * paramValue * paramValue * height).toFixed(2)
-                : (1/3 * 3.14 * paramValue * paramValue * height).toFixed(2);
-            formula = figure.formula(paramValue, height);
-            question = `Найдите объем ${figure.name} ${figure.param}ом ${paramValue} ${figure.unit} и высотой ${height} ${figure.unit} (π≈3.14)`;
-        }
-        
-        const answers = [correct];
-        while (answers.length < 4) {
-            let wrong;
-            if (figure.name === 'куб') {
-                wrong = (parseInt(correct) + Math.floor(Math.random() * 50) - 25).toString();
-            } else {
-                wrong = (parseFloat(correct) + (Math.random() - 0.5) * parseFloat(correct)).toFixed(2);
-            }
-            if (!answers.includes(wrong) && wrong !== correct) {
-                answers.push(wrong);
-            }
-        }
-        
-        for (let j = answers.length - 1; j > 0; j--) {
-            const k = Math.floor(Math.random() * (j + 1));
-            [answers[j], answers[k]] = [answers[k], answers[j]];
-        }
-        
-        additional.push({
-            question: question,
-            answers: answers,
-            correct: correct,
-            formula: formula,
-            hint: `Формула объема ${figure.name}: ${figure.name === 'куб' ? 'V = a³' : figure.name === 'шар' ? 'V = 4/3πR³' : figure.name === 'цилиндр' ? 'V = πR²h' : 'V = 1/3πR²h'}`,
-            explanation: `Для расчета объема использована стандартная формула для ${figure.name}.`
-        });
-    }
-    
-    return additional;
-}
-
 // ========== ФУНКЦИЯ ДЛЯ ОБОГАЩЕНИЯ ВОПРОСОВ (ТОЛЬКО СТЕРЕОМЕТРИЯ) ==========
 
 function enrichQuestionsFor20Mode() {
@@ -1512,4 +1445,5 @@ function endGame() {
 }
 
 // Запуск игры
+
 document.addEventListener('DOMContentLoaded', initGame);
