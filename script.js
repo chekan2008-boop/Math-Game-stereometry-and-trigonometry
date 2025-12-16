@@ -59,7 +59,7 @@ const questions = {
         easy: [
             // Основные значения углов (0°, 30°, 45°, 60°, 90°)
             {
-                question: "Чему равен sinα(0°)?",
+                question: "Чему равен sin(0°)?",
                 answers: ["0", "1", "0.5", "√2/2"],
                 correct: "0",
                 formula: "sin(0°) = 0",
@@ -67,7 +67,7 @@ const questions = {
                 explanation: "Синус нулевого угла равен 0, так как противолежащий катет отсутствует."
             },
             {
-                question: "Чему равен sinα(30°)?",
+                question: "Чему равен sin(30°)?",
                 answers: ["0.5", "√3/2", "1", "0"],
                 correct: "0.5",
                 formula: "sin(30°) = 1/2 = 0.5",
@@ -75,7 +75,7 @@ const questions = {
                 explanation: "В прямоугольном треугольнике с углом 30° противолежащий катет равен половине гипотенузы."
             },
             {
-                question: "Чему равен sinα(45°)?",
+                question: "Чему равен sin(45°)?",
                 answers: ["√2/2", "0.5", "1", "√3/2"],
                 correct: "√2/2",
                 formula: "sin(45°) = √2/2 ≈ 0.707",
@@ -83,7 +83,7 @@ const questions = {
                 explanation: "В равнобедренном прямоугольном треугольнике катеты равны, поэтому sin(45°) = cos(45°) = √2/2."
             },
             {
-                question: "Чему равен sinα(60°)?",
+                question: "Чему равен sin(60°)?",
                 answers: ["√3/2", "0.5", "1", "√2/2"],
                 correct: "√3/2",
                 formula: "sin(60°) = √3/2 ≈ 0.866",
@@ -91,7 +91,7 @@ const questions = {
                 explanation: "В равностороннем треугольнике, разделенном на два прямоугольных, sin(60°) = √3/2."
             },
             {
-                question: "Чему равен sinα(90°)?",
+                question: "Чему равен sin(90°)?",
                 answers: ["1", "0", "0.5", "√2/2"],
                 correct: "1",
                 formula: "sin(90°) = 1",
@@ -99,7 +99,7 @@ const questions = {
                 explanation: "При угле 90° противолежащий катет равен гипотенузе, поэтому sin(90°) = 1."
             },
             {
-                question: "Чему равен cosα(0°)?",
+                question: "Чему равен cos(0°)?",
                 answers: ["1", "0", "0.5", "√2/2"],
                 correct: "1",
                 formula: "cos(0°) = 1",
@@ -107,7 +107,7 @@ const questions = {
                 explanation: "При угле 0° прилежащий катет равен гипотенузе, поэтому cos(0°) = 1."
             },
             {
-                question: "Чему равен cosα(30°)?",
+                question: "Чему равен cos(30°)?",
                 answers: ["√3/2", "0.5", "1", "√2/2"],
                 correct: "√3/2",
                 formula: "cos(30°) = √3/2 ≈ 0.866",
@@ -115,7 +115,7 @@ const questions = {
                 explanation: "В треугольнике с углами 30°-60°-90° cos(30°) = √3/2."
             },
             {
-                question: "Чему равен cosα(45°)?",
+                question: "Чему равен cos(45°)?",
                 answers: ["√2/2", "0.5", "1", "√3/2"],
                 correct: "√2/2",
                 formula: "cos(45°) = √2/2 ≈ 0.707",
@@ -123,7 +123,7 @@ const questions = {
                 explanation: "В равнобедренном прямоугольном треугольнике cos(45°) = sin(45°) = √2/2."
             },
             {
-                question: "Чему равен cosα(60°)?",
+                question: "Чему равен cos(60°)?",
                 answers: ["0.5", "√3/2", "1", "√2/2"],
                 correct: "0.5",
                 formula: "cos(60°) = 1/2 = 0.5",
@@ -131,7 +131,7 @@ const questions = {
                 explanation: "cos(60°) равен половине, так как при угле 60° прилежащий катет в 2 раза меньше гипотенузы."
             },
             {
-                question: "Чему равен cosα(90°)?",
+                question: "Чему равен cos(90°)?",
                 answers: ["0", "1", "0.5", "√2/2"],
                 correct: "0",
                 formula: "cos(90°) = 0",
@@ -141,7 +141,7 @@ const questions = {
 
             // Тангенсы основных углов
             {
-                question: "Чему равен tgα(0°)?",
+                question: "Чему равен tg(0°)?",
                 answers: ["0", "1", "не существует", "∞"],
                 correct: "0",
                 formula: "tg(0°) = sin(0°)/cos(0°) = 0/1 = 0",
@@ -149,7 +149,7 @@ const questions = {
                 explanation: "tg(0°) = sin(0°)/cos(0°) = 0/1 = 0."
             },
             {
-                question: "Чему равен tgα(30°)?",
+                question: "Чему равен tg(30°)?",
                 answers: ["√3/3", "√3", "1", "0.5"],
                 correct: "√3/3",
                 formula: "tg(30°) = sin(30°)/cos(30°) = (1/2)/(√3/2) = 1/√3 = √3/3",
@@ -157,7 +157,7 @@ const questions = {
                 explanation: "tg(30°) = sin(30°)/cos(30°) = (1/2)/(√3/2) = 1/√3 = √3/3."
             },
             {
-                question: "Чему равен tgα(45°)?",
+                question: "Чему равен tg(45°)?",
                 answers: ["1", "√3", "0", "∞"],
                 correct: "1",
                 formula: "tg(45°) = sin(45°)/cos(45°) = (√2/2)/(√2/2) = 1",
@@ -165,7 +165,7 @@ const questions = {
                 explanation: "Так как sin(45°) = cos(45°), их отношение равно 1."
             },
             {
-                question: "Чему равен tgα(60°)?",
+                question: "Чему равен tg(60°)?",
                 answers: ["√3", "√3/3", "1", "0"],
                 correct: "√3",
                 formula: "tg(60°) = sin(60°)/cos(60°) = (√3/2)/(1/2) = √3",
@@ -173,7 +173,7 @@ const questions = {
                 explanation: "tg(60°) = sin(60°)/cos(60°) = (√3/2)/(1/2) = √3."
             },
             {
-                question: "Чему равен tgα(90°)?",
+                question: "Чему равен tg(90°)?",
                 answers: ["не существует", "0", "1", "∞"],
                 correct: "не существует",
                 formula: "tg(90°) = sin(90°)/cos(90°) = 1/0 → не существует",
@@ -1514,4 +1514,5 @@ function endGame() {
 // Запуск игры
 
 document.addEventListener('DOMContentLoaded', initGame);
+
 
