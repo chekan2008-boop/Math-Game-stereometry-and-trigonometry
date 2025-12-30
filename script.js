@@ -1448,3 +1448,4 @@ function endGame() {
 
 document.addEventListener('DOMContentLoaded', initGame);
 
+
